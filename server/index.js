@@ -2,7 +2,6 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
 import mongoose from 'mongoose';
-import timeout from 'connect-timeout';
 import 'dotenv/config';
 
 import attributeRoutes from './routes/api/attribute.js';
@@ -14,7 +13,6 @@ const app = express();
 mongoose.connect(process.env.DB_CONNECTION, () => console.info('DB Connected'));
 
 app.use(cors());
-app.use(timeout('30s'));
 app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
