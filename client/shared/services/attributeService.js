@@ -3,7 +3,7 @@ import axios from 'axios';
 const PUBLIC_BASE_URL = import.meta.env.PUBLIC_BASE_URL;
 const PUBLIC_SERVER_PORT_NUMBER = import.meta.env.PUBLIC_SERVER_PORT_NUMBER;
 
-const url = `${PUBLIC_BASE_URL}:${PUBLIC_SERVER_PORT_NUMBER}/api/attribute/`;
+const url = `${PUBLIC_BASE_URL}${PUBLIC_SERVER_PORT_NUMBER ? `:${PUBLIC_SERVER_PORT_NUMBER}` : ''}/api/attribute/`;
 
 class AttributeService {
     // Get all
