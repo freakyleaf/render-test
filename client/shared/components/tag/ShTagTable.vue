@@ -1,9 +1,9 @@
 <template>
-    <table class="table table-striped">
+    <table class="table">
         <tbody>
             <tr>
                 <th
-                    class="col-3"
+                    class="col-3 table-accent"
                     scope="row"
                 >
                     Tag Name
@@ -13,7 +13,10 @@
                 </td>
             </tr>
             <tr>
-                <th scope="row">
+                <th
+                    class="table-accent"
+                    scope="row"
+                >
                     Tag Type
                 </th>
                 <td>
@@ -21,72 +24,109 @@
                 </td>
             </tr>
             <tr v-if="itemLocal.description">
-                <th scope="row">
+                <th
+                    class="table-accent"
+                    scope="row"
+                >
                     Description
                 </th>
                 <td>
-                    <!-- eslint-disable-next-line vue/no-v-html -->
-                    <div v-html="renderMarkdown(itemLocal.description)" />
+                    <!-- eslint-disable vue/no-v-html -->
+                    <div
+                        class="markdown"
+                        v-html="renderMarkdown(itemLocal.description)"
+                    />
+                    <!-- eslint-enable vue/no-v-html -->
                 </td>
             </tr>
             <tr v-if="itemLocal.notes">
-                <th scope="row">
+                <th
+                    class="table-accent"
+                    scope="row"
+                >
                     Notes
                 </th>
                 <td>
-                    <!-- eslint-disable-next-line vue/no-v-html -->
-                    <div v-html="renderMarkdown(itemLocal.notes)" />
+                    <!-- eslint-disable vue/no-v-html -->
+                    <div
+                        class="markdown"
+                        v-html="renderMarkdown(itemLocal.notes)"
+                    />
+                    <!-- eslint-enable vue/no-v-html -->
+                </td>
+            </tr>
+            <tr v-if="relatedItems.attribute.length">
+                <th
+                    class="table-accent"
+                    scope="row"
+                >
+                    Related Attributes
+                </th>
+                <td>
+                    <TableRelatedItems
+                        category="attribute"
+                        class="table-bordered-outside-alt"
+                        :related-items="relatedItems.attribute"
+                    />
+                </td>
+            </tr>
+            <tr v-if="relatedItems.tag.length">
+                <th
+                    class="table-accent"
+                    scope="row"
+                >
+                    Related Attributes
+                </th>
+                <td>
+                    <TableRelatedItems
+                        category="tag"
+                        class="table-bordered-outside-alt"
+                        :related-items="relatedItems.tag"
+                    />
                 </td>
             </tr>
             <tr v-if="isAdminApp && itemLocal.contentPatterns?.length">
-                <th scope="row">
+                <th
+                    class="table-accent"
+                    scope="row"
+                >
                     Content Patterns
                 </th>
                 <td>
-                    <TableContentPatterns :content-patterns="itemLocal.contentPatterns" />
+                    <TableContentPatterns
+                        class="table-bordered-outside-alt"
+                        :content-patterns="itemLocal.contentPatterns"
+                    />
                 </td>
             </tr>
             <tr v-if="itemLocal.references && itemLocal.references.length">
-                <th scope="row">
+                <th
+                    class="table-accent"
+                    scope="row"
+                >
                     References
                 </th>
                 <td>
-                    <TableReferences :references="itemLocal.references" />
-                </td>
-            </tr>
-            <tr v-if="itemLocal.attributes">
-                <th scope="row">
-                    Attributes
-                </th>
-                <td>
-                    <category-sort-x
-                        category="attribute"
-                        :items="attributes"
-                    >
-                        <template #default="{ typesSorted }">
-                            <ul class="list-unstyled">
-                                <template v-for="type in typesSorted">
-                                    <TagTableAttributes
-                                        v-if="type.items.length"
-                                        :key="type.title.kebab"
-                                        :attributes="type.items"
-                                        :tag="itemLocal"
-                                        :title="type.title.pretty"
-                                    />
-                                </template>
-                            </ul>
-                        </template>
-                    </category-sort-x>
+                    <TableReferences
+                        class="table-bordered-outside-alt"
+                        :references="itemLocal.references"
+                    />
                 </td>
             </tr>
             <tr v-if="isAdminApp">
-                <th scope="row">
+                <th
+                    class="table-accent"
+                    scope="row"
+                >
                     Date published
                 </th>
                 <td>{{ dateParse(itemLocal.datePublished) }}</td>
             </tr>
             <tr v-if="isAdminApp && itemLocal.dateUpdated && dateParse(itemLocal.dateUpdated) !== dateParse(itemLocal.datePublished)">
-                <th scope="row">
+                <th
+                    class="table-accent"
+                    scope="row"
+                >
                     Last updated
                 </th>
                 <td>{{ dateParse(itemLocal.dateUpdated) }}</td>
@@ -98,26 +138,24 @@
 <script>
 import { mapState } from 'vuex';
 
-import CategorySortX from '@shared/components/renderless/ShCategorySortX.vue';
 import TableContentPatterns from '@shared/components/table/ShTableContentPatterns.vue';
 import TableReferences from '@shared/components/table/ShTableReferences.vue';
-import TagTableAttributes from '@shared/components/tag/ShTagTableAttributes.vue';
 
 import dateParse from '@shared/mixins/dateParse';
 import prettyType from '@shared/mixins/prettyType';
+import relatedItems from '@shared/mixins/relatedItems';
 import renderMarkdown from '@shared/mixins/renderMarkdown';
 
 export default {
     name: 'ShTagTable',
     components: {
-        CategorySortX,
         TableContentPatterns,
         TableReferences,
-        TagTableAttributes,
     },
     mixins: [
         dateParse,
         prettyType,
+        relatedItems,
         renderMarkdown,
     ],
     props: {

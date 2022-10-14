@@ -11,6 +11,9 @@ const AttributeSchema = mongoose.Schema({
     isActive: {
         type: Boolean,
     },
+    isVisible: {
+        type: Boolean,
+    },
     name: {
         type: String,
     },

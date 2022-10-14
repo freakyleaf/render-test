@@ -1,17 +1,21 @@
 <template>
-    <div class="table-responsive">
-        <h3>{{ title }}</h3>
-        <table class="table table-striped table-bordered">
+    <div>
+        <h3 class="mb-3">
+            {{ title }}
+        </h3>
+        <table class="table table-striped table-bordered table-with-sticky-header">
             <thead>
                 <tr>
                     <th />
                     <th
                         v-for="tag in tags"
+                        :id="`tag-${tag.name}`"
                         :key="tag._id"
+                        class="text-center"
                         scope="col"
                     >
                         <router-link
-                            :to="`tags/view/${tag.name}`"
+                            :to="`/tags/${tag.name}`"
                         >
                             {{ tag.name }}
                         </router-link>
@@ -24,11 +28,12 @@
                     :key="attribute._id"
                 >
                     <th
+                        :id="`attribute-${attribute.name}`"
                         class="col-md-3"
                         scope="row"
                     >
                         <router-link
-                            :to="`attributes/view/${attribute.name}`"
+                            :to="`/attributes/${attribute.name}`"
                         >
                             {{ attribute.name }}
                         </router-link>
@@ -38,16 +43,18 @@
                         :key="tag._id"
                         class="cell p-0"
                         :class="`table-${badgeStatus(attribute, tag)}`"
+                        :headers="`attribute-${attribute.name} tag-${tag.name}`"
                     >
-                        <span
+                        <a
                             class="info"
-                            @click="$emit('doInfo', {
+                            href="#"
+                            @click.prevent="$emit('tableItemClick', {
                                 attribute: attribute,
                                 tag: tag,
                             })"
                         >
                             Info
-                        </span>
+                        </a>
                     </td>
                 </tr>
             </tbody>
@@ -97,10 +104,21 @@ export default {
     left: 0;
     width: 100%;
     height: 100%;
+    color: var(--bs-white);
+    text-decoration: none;
 }
-</style>
 
-<style scoped>
+.table-with-sticky-header {
+    position: relative;
+}
+
+.table-with-sticky-header thead {
+    z-index: 5;
+    position: sticky;
+    inset-block-start: 0; /* "top" */
+    background-color: var(--bs-white);
+}
+
 .table-unacknowledged {
     color: var(--bs-white) !important;
     --bs-table-striped-bg: var(--bs-primary);

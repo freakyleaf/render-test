@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import IconWarning from '@shared/icons/IconWarning.vue';
+import IconWarning from '@shared/components/icons/IconWarning.vue';
 
 export default {
     name: 'ShBadgeOpinionated',

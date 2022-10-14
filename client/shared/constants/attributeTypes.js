@@ -8,16 +8,16 @@ export default [
         kebab: 'regular',
         pretty: 'Regular',
     },
-    {
-        kebab: 'aria-global',
-        pretty: 'ARIA Global',
-    },
-    {
-        kebab: 'aria-regular',
-        pretty: 'ARIA Regular',
-    },
-    {
-        kebab: 'aria-role',
-        pretty: 'ARIA Role',
-    },
+    // {
+    //     kebab: 'aria-global',
+    //     pretty: 'ARIA Global',
+    // },
+    // {
+    //     kebab: 'aria-regular',
+    //     pretty: 'ARIA Regular',
+    // },
+    // {
+    //     kebab: 'aria-role',
+    //     pretty: 'ARIA Role',
+    // },
 ];

@@ -5,6 +5,7 @@ const state = () => ({
 const mutations = {
     setError (state, error) {
         state.errorMessage = error;
+        throw new Error(error);
     },
     unsetError (state) {
         state.errorMessage = '';

@@ -1,11 +1,11 @@
 <template>
-    <table class="table table-light mb-0">
+    <table class="table mb-0">
         <thead>
-            <tr>
-                <th>
+            <tr class="table-accent-alt">
+                <th scope="col">
                     Reference
                 </th>
-                <th>
+                <th scope="col">
                     Content
                 </th>
             </tr>
@@ -18,7 +18,7 @@
                 <td>
                     <code>[pattern-{{ category }}={{ contentPattern.reference }}]</code>
                 </td>
-                <td>
+                <td class="font-monospace">
                     {{ contentPattern.content }}
                 </td>
             </tr>

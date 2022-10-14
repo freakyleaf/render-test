@@ -4,6 +4,7 @@
             <div class="row">
                 <MarkdownElementInput
                     :id="id"
+                    ref="MarkdownElementInput"
                     :label="label"
                     :value="value"
                     @markdownPreviewInput="(value) => {

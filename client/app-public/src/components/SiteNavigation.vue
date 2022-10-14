@@ -1,9 +1,9 @@
 <template>
     <nav
         id="nav"
-        class="navbar navbar-expand-lg navbar-light bg-light mb-3"
+        class="navbar navbar-expand-lg navbar-light bg-light-alt mb-3"
     >
-        <div class="container">
+        <ContainerGeneric>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                     <router-link
@@ -30,18 +30,31 @@
                     </router-link>
                 </li>
             </ul>
-        </div>
+        </ContainerGeneric>
     </nav>
 </template>
 
 <script>
+import ContainerGeneric from '@shared/components/layout/ShContainerGeneric.vue';
+
 export default {
     name: 'SiteNavigation',
+    components: {
+        ContainerGeneric,
+    },
 };
 </script>
 
 <style scoped>
-    .router-link-exact-active {
-        font-weight: 700;
-    }
+.navbar {
+    border-bottom: 1px solid var(--cia-border-color-alt);
+}
+
+.navbar-nav {
+    margin-left: calc(var(--bs-navbar-nav-link-padding-x) * -1);
+}
+
+.router-link-exact-active {
+    font-weight: 700;
+}
 </style>

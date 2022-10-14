@@ -1,9 +1,9 @@
 <template>
-    <table class="table table-striped">
+    <table class="table">
         <tbody>
             <tr>
                 <th
-                    class="col-3"
+                    class="col-3 table-accent"
                     scope="row"
                 >
                     Attribute Name
@@ -13,7 +13,10 @@
                 </td>
             </tr>
             <tr>
-                <th scope="row">
+                <th
+                    class="table-accent"
+                    scope="row"
+                >
                     Attribute Type
                 </th>
                 <td>
@@ -24,8 +27,66 @@
                     </span>
                 </td>
             </tr>
+            <tr v-if="itemLocal.description">
+                <th
+                    class="table-accent"
+                    scope="row"
+                >
+                    Description
+                </th>
+                <td>
+                    <!-- eslint-disable vue/no-v-html -->
+                    <div
+                        class="markdown"
+                        v-html="itemContentDescription"
+                    />
+                    <!-- eslint-enable vue/no-v-html -->
+                </td>
+            </tr>
+            <tr v-if="itemLocal.notes">
+                <th
+                    class="table-accent"
+                    scope="row"
+                >
+                    Notes
+                </th>
+                <td>
+                    <!-- eslint-disable vue/no-v-html -->
+                    <div
+                        class="markdown"
+                        v-html="itemContentNotes"
+                    />
+                    <!-- eslint-enable vue/no-v-html -->
+                </td>
+            </tr>
+            <tr>
+                <th
+                    class="table-accent"
+                    scope="row"
+                >
+                    Attribute Value:<br>Valid Types
+                </th>
+                <td>
+                    <ul class="list-unstyled">
+                        <li
+                            v-for="valueType in itemLocal.valueTypes"
+                            :key="valueType"
+                        >
+                            <!-- eslint-disable vue/no-v-html -->
+                            <div
+                                class="markdown"
+                                v-html="renderMarkdown(prettyType(valueType), true)"
+                            />
+                            <!-- eslint-enable vue/no-v-html -->
+                        </li>
+                    </ul>
+                </td>
+            </tr>
             <tr v-if="itemLocal.subtypes?.length">
-                <th scope="row">
+                <th
+                    class="table-accent"
+                    scope="row"
+                >
                     Attribute Subtypes
                 </th>
                 <td>
@@ -40,123 +101,91 @@
                 </td>
             </tr>
             <tr>
-                <th scope="row">
-                    Attribute Value:<br>Valid Types
-                </th>
-                <td>
-                    <ul class="list-unstyled">
-                        <li
-                            v-for="valueType in itemLocal.valueTypes"
-                            :key="valueType"
-                        >
-                            <!-- eslint-disable-next-line vue/no-v-html -->
-                            <div v-html="renderMarkdown(prettyType(valueType), true)" />
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">
+                <th
+                    class="table-accent"
+                    scope="row"
+                >
                     Attribute Value:<br>Valid Values
                 </th>
                 <td>
-                    <table class="table table-light mb-0">
-                        <thead>
-                            <tr>
-                                <th>
-                                    Value
-                                </th>
-                                <th>
-                                    Example
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-if="valueTypesIncludesBooleanAttributeOnly">
-                                <td>
-                                    <code>[none]</code>
-                                </td>
-                                <td>
-                                    <code>{{ itemLocal.name }}</code>
-                                </td>
-                            </tr>
-                            <template v-if="valueTypesIncludesBooleanEnumerated">
-                                <tr>
-                                    <td>
-                                        <code>true</code>
-                                    </td>
-                                    <td>
-                                        <code>{{ itemLocal.name }}="true"</code>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <code>false</code>
-                                    </td>
-                                    <td>
-                                        <code>{{ itemLocal.name }}="false"</code>
-                                    </td>
-                                </tr>
-                            </template>
-                            <tr
-                                v-for="valueValue in itemLocal.valueValues"
-                                :key="valueValue.name"
-                            >
-                                <td>
-                                    <code>{{ valueValue.name }}</code>
-                                </td>
-                                <td>
-                                    <code>
-                                        {{ valueValueExample(valueValue) }}
-                                    </code>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <TableValidValues
+                        class="table-bordered-outside-alt"
+                        :item="itemLocal"
+                    />
                 </td>
             </tr>
-            <tr v-if="itemLocal.description">
-                <th scope="row">
-                    Description
+            <tr v-if="relatedItems.attribute.length">
+                <th
+                    class="table-accent"
+                    scope="row"
+                >
+                    Related Attributes
                 </th>
                 <td>
-                    <!-- eslint-disable-next-line vue/no-v-html -->
-                    <div v-html="renderMarkdown(itemLocal.description)" />
+                    <TableRelatedItems
+                        category="attribute"
+                        class="table-bordered-outside-alt"
+                        :related-items="relatedItems.attribute"
+                    />
                 </td>
             </tr>
-            <tr v-if="itemLocal.notes">
-                <th scope="row">
-                    Notes
+            <tr v-if="relatedItems.tag.length">
+                <th
+                    class="table-accent"
+                    scope="row"
+                >
+                    Related Attributes
                 </th>
                 <td>
-                    <!-- eslint-disable-next-line vue/no-v-html -->
-                    <div v-html="renderMarkdown(itemLocal.notes)" />
+                    <TableRelatedItems
+                        category="tag"
+                        class="table-bordered-outside-alt"
+                        :related-items="relatedItems.tag"
+                    />
                 </td>
             </tr>
             <tr v-if="isAdminApp && itemLocal.contentPatterns?.length">
-                <th scope="row">
+                <th
+                    class="table-accent"
+                    scope="row"
+                >
                     Content Patterns
                 </th>
                 <td>
-                    <TableContentPatterns :content-patterns="itemLocal.contentPatterns" />
+                    <TableContentPatterns
+                        class="table-bordered-outside-alt"
+                        :content-patterns="itemLocal.contentPatterns"
+                    />
                 </td>
             </tr>
             <tr v-if="itemLocal.references?.length">
-                <th scope="row">
+                <th
+                    class="table-accent"
+                    scope="row"
+                >
                     References
                 </th>
                 <td>
-                    <TableReferences :references="itemLocal.references" />
+                    <TableReferences
+                        class="table-bordered-outside-alt"
+                        :references="itemLocal.references"
+                    />
                 </td>
             </tr>
             <tr v-if="isAdminApp">
-                <th scope="row">
+                <th
+                    class="table-accent"
+                    scope="row"
+                >
                     Date published
                 </th>
                 <td>{{ dateParse(itemLocal.datePublished) }}</td>
             </tr>
             <tr v-if="isAdminApp && itemLocal.dateUpdated && dateParse(itemLocal.dateUpdated) !== dateParse(itemLocal.datePublished)">
-                <th scope="row">
+                <th
+                    class="table-accent"
+                    scope="row"
+                >
                     Last updated
                 </th>
                 <td>{{ dateParse(itemLocal.dateUpdated) }}</td>
@@ -168,20 +197,26 @@
 <script>
 import TableContentPatterns from '@shared/components/table/ShTableContentPatterns.vue';
 import TableReferences from '@shared/components/table/ShTableReferences.vue';
+import TableRelatedItems from '@shared/components/table/ShTableRelatedItems.vue';
+import TableValidValues from '@shared/components/table/ShTableValidValues.vue';
 
 import dateParse from '@shared/mixins/dateParse';
 import prettyType from '@shared/mixins/prettyType';
+import relatedItems from '@shared/mixins/relatedItems';
 import renderMarkdown from '@shared/mixins/renderMarkdown';
 
 export default {
     name: 'ShAttributeTable',
     components: {
         TableContentPatterns,
+        TableRelatedItems,
         TableReferences,
+        TableValidValues,
     },
     mixins: [
         dateParse,
         prettyType,
+        relatedItems,
         renderMarkdown,
     ],
     props: {
@@ -196,23 +231,15 @@ export default {
     },
     data () {
         return {
-            itemLocal: structuredClone(this.item),
+            itemContentDescription: '',
+            itemContentNotes: '',
+            itemLocal: {},
         };
     },
-    computed: {
-        valueTypesIncludesBooleanEnumerated () {
-            return this.itemLocal.valueTypes?.includes('boolean-enumerated');
-        },
-        valueTypesIncludesBooleanAttributeOnly () {
-            return this.itemLocal.valueTypes?.includes('boolean-attribute-only');
-        },
-    },
-    methods: {
-        valueValueExample (valueValue) {
-            const itemName = this.itemLocal.name === 'data-*' ? 'data-foo' : this.itemLocal.name;
-            const itemValue = valueValue.example ? valueValue.example === '[empty string]' ? '' : valueValue.example : valueValue.name;
-            return `${itemName}="${itemValue}"`;
-        },
+    created () {
+        this.itemLocal = structuredClone(this.item);
+        this.itemContentDescription = this.renderMarkdown(this.itemLocal.description);
+        this.itemContentNotes = this.renderMarkdown(this.itemLocal.notes);
     },
 };
 </script>

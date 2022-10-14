@@ -47,6 +47,7 @@ router.get('/:item', async (req, res) => {
 // Add
 router.post('/', async (req, res) => {
     const attribute = new Attribute({
+        codepen: req.body.codepen,
         contentPatterns: req.body.contentPatterns,
         description: req.body.description,
         name: req.body.name,
@@ -94,6 +95,7 @@ router.patch('/:_id', async (req, res) => {
             },
             {
                 $set: {
+                    codepen: req.body.codepen,
                     contentPatterns: req.body.contentPatterns,
                     dateUpdated: new Date(),
                     description: req.body.description,

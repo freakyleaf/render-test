@@ -1,6 +1,6 @@
 <template>
     <optgroup
-        :label="`${type.title.pretty} Attributes`"
+        :label="`${type.title.pretty} ${capitalize(pluralize(category))}`"
     >
         <option
             v-for="item in type.items"
@@ -13,9 +13,24 @@
 </template>
 
 <script>
+import capitalize from '@shared/mixins/capitalize';
+import pluralize from '@shared/mixins/pluralize';
+
 export default {
     name: 'QuickSelectOptionGroup',
+    mixins: [
+        capitalize,
+        pluralize,
+    ],
     props: {
+        category: {
+            type: String,
+            default: '',
+            required: true,
+            validator: (value) => {
+                return [ 'attribute', 'tag' ].includes(value);
+            },
+        },
         type: {
             type: Object,
             default: () => {},

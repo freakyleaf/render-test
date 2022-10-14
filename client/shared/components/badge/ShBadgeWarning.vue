@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import IconEmojiNeutral from '@shared/icons/IconEmojiNeutral.vue';
+import IconEmojiNeutral from '@shared/components/icons/IconEmojiNeutral.vue';
 
 export default {
     name: 'ShBadgeWarning',

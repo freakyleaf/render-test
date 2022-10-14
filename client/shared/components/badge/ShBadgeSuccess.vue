@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import IconEmojiSmile from '@shared/icons/IconEmojiSmile.vue';
+import IconEmojiSmile from '@shared/components/icons/IconEmojiSmile.vue';
 
 export default {
     name: 'ShBadgeSuccess',

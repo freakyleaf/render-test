@@ -13,6 +13,9 @@ export default {
         category: {
             type: String,
             default: '',
+            validator: (value) => {
+                return [ '', 'attribute', 'tag' ].includes(value);
+            },
         },
         items: {
             type: Array,

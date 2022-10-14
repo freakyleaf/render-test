@@ -1,11 +1,14 @@
 import mongoose from 'mongoose';
 
 const ValueValueSchema = mongoose.Schema({
+    example: {
+        type: String,
+    },
     name: {
         type: String,
         required: true,
     },
-    example: {
+    notes: {
         type: String,
     },
 });

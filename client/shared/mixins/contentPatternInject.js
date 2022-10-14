@@ -41,7 +41,7 @@ export default {
                 return doContentPatternInject(output, patternCount);
             }
 
-            if (contentRaw.length === 0 || patterns.length === 0) return; // Exit early for `/tag/add` journeys
+            if (contentRaw.length === 0 || patterns.length === 0) return ''; // Exit early for `/tag/add` journeys
 
             return doContentPatternInject(contentRaw, 0);
         },

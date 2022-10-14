@@ -1,11 +1,11 @@
 <template>
-    <table class="table table-light mb-0">
+    <table class="table mb-0">
         <thead>
-            <tr>
-                <th>
+            <tr class="table-accent-alt">
+                <th scope="col">
                     Reference Name
                 </th>
-                <th>
+                <th scope="col">
                     Reference URL
                 </th>
             </tr>
@@ -16,7 +16,12 @@
                 :key="reference.name"
             >
                 <td>
-                    {{ reference.name }}
+                    <!-- eslint-disable vue/no-v-html -->
+                    <span
+                        class="markdown"
+                        v-html="renderMarkdown(reference.name, true)"
+                    />
+                    <!-- eslint-enable vue/no-v-html -->
                 </td>
                 <td>
                     <a
@@ -26,6 +31,7 @@
                     >
                         {{ reference.url }}
                     </a>
+                    <IconExternalLink v-if="urlIsExternal(reference.url)" />
                 </td>
             </tr>
         </tbody>
@@ -33,12 +39,27 @@
 </template>
 
 <script>
+import renderMarkdown from '@shared/mixins/renderMarkdown';
+
+import IconExternalLink from '@shared/components/icons/IconExternalLink.vue';
+
 export default {
     name: 'ShTableReferences',
+    components: {
+        IconExternalLink,
+    },
+    mixins: [
+        renderMarkdown,
+    ],
     props: {
         references: {
             type: Array,
             default: () => [],
+        },
+    },
+    methods: {
+        urlIsExternal (url) {
+            return url.includes('http');
         },
     },
 };

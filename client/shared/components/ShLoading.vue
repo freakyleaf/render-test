@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import IconArrowClockwise from '@shared/icons/IconArrowClockwise.vue';
+import IconArrowClockwise from '@shared/components/icons/IconArrowClockwise.vue';
 
 export default {
     name: 'ShLoading',

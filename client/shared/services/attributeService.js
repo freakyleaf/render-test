@@ -46,6 +46,7 @@ class AttributeService {
 
     // Add
     static async addAttribute ({
+        codepen,
         contentPatterns,
         description,
         name,
@@ -61,6 +62,7 @@ class AttributeService {
     }) {
         try {
             const response = await axios.post(url, {
+                codepen,
                 contentPatterns,
                 description,
                 name,
@@ -87,6 +89,7 @@ class AttributeService {
     // Edit
     static async updateAttribute ({
         _id,
+        codepen,
         contentPatterns,
         description,
         name,
@@ -102,6 +105,7 @@ class AttributeService {
     }) {
         try {
             const response = await axios.patch(`${url}${_id}`, {
+                codepen,
                 contentPatterns,
                 description,
                 name,

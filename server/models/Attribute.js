@@ -6,6 +6,9 @@ import ReferenceSchema from './Reference.js';
 import ValueValueSchema from './ValueValue.js';
 
 const AttributeSchema = mongoose.Schema({
+    codepen: {
+        type: String,
+    },
     contentPatterns: [
         ContentPatternSchema,
     ],
